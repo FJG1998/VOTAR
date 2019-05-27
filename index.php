@@ -20,7 +20,15 @@ if(isset($_POST['dni'])){
 
     }else{
 
-        header('location:info.php');
+    //     // Inicio de sesion
+
+    //  Sesión_start();
+
+    //     //Variables de sesión
+    
+    //     $dniUsuario = $_session['dni'] = $dniIntroducido;
+
+        header('location:info.php?dni='.$dniIntroducido);
     }
 
 }
@@ -39,10 +47,7 @@ if(isset($_POST['dni'])){
 
     <form action="" method="POST">
 
-                
-        <input type="text" name="dni" id="" placeholder="DNI" required><br><br>
-
-        <input type="submit" value="COMPROBAR"><br><br>
+        <input type="text" name="dni" id="" placeholder="DNI" required autofocus>
 
     </form>
  
