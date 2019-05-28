@@ -14,21 +14,23 @@ if(isset($_POST['dni'])){
 
     // Condicional que comprueba la si la letra es correcta y nos envia a la pagina de informacion
 
-    if($validarLetra->letraDNI($numeros) != $letra){
+    if($validarLetra->letraDNI($numeros) == $letra){
 
-    echo'DNI INVALIDO';
+        
+        // Inicio de sesion
+
+        session_start();
+
+        //Variables de sesión
+    
+       $_SESSION['dni'] = $dniIntroducido;       
+
+        header('location:info.php');
+    
 
     }else{
 
-    //     // Inicio de sesion
-
-    //  Sesión_start();
-
-    //     //Variables de sesión
-    
-    //     $dniUsuario = $_session['dni'] = $dniIntroducido;
-
-        header('location:info.php?dni='.$dniIntroducido);
+        echo'DNI INVALIDO';
     }
 
 }
