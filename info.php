@@ -27,18 +27,17 @@ $votantes=[
 
 <?php
 
-session_start();
+        session_start();
 
- $dniUsuario = $_SESSION['dni'];
+        $dniUsuario = $_SESSION['dni'];
+
 
     foreach($votantes as $valor){
 
         if($valor->getDNI() == $dniUsuario){
 
-            $valor->printINfo();
-
-            $valor->menorEdad();
-
+        $valor->maestro();
+        
         }
     }
 ?>
