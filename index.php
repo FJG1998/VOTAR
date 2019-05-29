@@ -1,5 +1,9 @@
 <?php
 
+    // Inicio de sesion
+
+    session_start();
+
 require_once('models/Seguridad.php');
 
 if(isset($_POST['dni'])){
@@ -17,11 +21,6 @@ if(isset($_POST['dni'])){
 
     if($validarLetra->letraDNI($numeros) == $letra){
 
-        
-        // Inicio de sesion
-
-        session_start();
-
         //Variables de sesión
     
        $_SESSION['dni'] = $dniIntroducido;       
@@ -31,7 +30,7 @@ if(isset($_POST['dni'])){
 
     }else{
 
-        echo'DNI INVALIDO';
+        echo'DNI INCORRECTO';
     }
 
 }
@@ -54,7 +53,5 @@ if(isset($_POST['dni'])){
 
     </form>
  
- <!-- SOLO FALTA QUE NO PUEDA VOTAR DOS VECES, SE INTENTA EN VOTANTE 64 -->
-
 </body>
 </html>

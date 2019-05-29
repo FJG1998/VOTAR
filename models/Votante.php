@@ -1,5 +1,5 @@
 <?php
-
+include_once('ivotar.php');
 /*
 ..######..##.....##.########..########.########......######..##..........###.....######...######.
 .##....##.##.....##.##.....##.##.......##.....##....##....##.##.........##.##...##....##.##....##
@@ -10,10 +10,12 @@
 ..######...#######..##........########.##.....##.....######..########.##.....##..######...######.
 */
 
+
 // SUPER CLASE DE PERSONA
 
-class Votante{
+class Votante implements Votar{
 
+    public $haVotado = false;
     private $dni;
     private $fechaNacimiento;
     private $caducidad;
@@ -23,7 +25,7 @@ class Votante{
     private $pais;
     private $mesa;
 
-    public function __construct($dni,$fechaNacimiento, $caducidad, $nombre, $calle, $pais, $mesa,$localidad){
+    public function __construct($dni,$fechaNacimiento, $caducidad, $nombre, $calle, $pais, $mesa,$localidad,$haVotado){
 
         $this->dni = $dni;
         $this->fechaNacimiento = $fechaNacimiento;
@@ -33,6 +35,7 @@ class Votante{
         $this->pais = $pais;
         $this->mesa = $mesa;
         $this->localidad = $localidad;
+        $this->haVotado = $haVotado;
     }
 
 
@@ -41,8 +44,6 @@ class Votante{
         // METODO MAESTRO
 
     public function maestro(){
-
-        $haVotado = false;
 
         $noValido = 0;
 
@@ -59,12 +60,42 @@ class Votante{
 
         if($this->noValido < 1){
 
-            echo '<h1 class="apto">APTO PARA VOTAR<h1>';
+            echo '<h1 class="apto">APTO PARA VOTAR<h1><br><br>';
 
-            $haVotado = true;
+                    // Abrir el archivo o crearlo si no existe, con permiso para escribir y leer
 
-            echo '<a href="#">VOTAR</a>';
-        }
+                $registro = fopen('registro.txt','a+');
+
+                $array = file('registro.txt',FILE_IGNORE_NEW_LINES);
+
+                $hora = date('h:i:s');
+
+                $dniUsuario = $this->dni.'_'. $hora;
+
+                fwrite($registro, $dniUsuario . PHP_EOL);
+
+                echo '<pre>';
+
+                print_r($array);
+
+                echo '</pre>';
+
+//                 foreach($array as $valor){
+
+
+// // pendiente que comprueve el array y diga si hay coincidencias
+
+
+//                 }
+
+            
+            echo '<a class="votar" href="index.php">VOTAR</a>';
+
+            $this->haVotado = true;
+
+            fclose($registro);
+
+        }else{echo ' <a class="botonno" href="index.php">VOLVER</a> ';}
 
     }
 
@@ -116,9 +147,11 @@ class Votante{
 
             if($edad < 18){
 
-                echo '<h1 class="menor">MENOR DE EDAD</h1><br<br>';
+                echo '<h1 class="menor">MENOR DE EDAD</h1><br<br><br><br>';
+
 
                 $this->noValido += 1;
+
             }
     }
 
@@ -138,6 +171,7 @@ class Votante{
         }else{
             
             echo '<h1 class="menor">DNI CADUCADO</h1><br><br>';
+
 
            $this->noValido += 1;
 
@@ -188,16 +222,16 @@ class Votante{
 
     // OBJETOS (personas que van a votar)
 
-$fran = new Votante('21041746N','1998/11/17', '2019/05/25','Francisco Jimenez Gomez','Calle de la esperanza nº7, 1e','España','Colegio 01, mesa: 7-u','LLucmajor');//DNI CADUCADO
+$fran = new Votante('21041746N','1998/11/17', '2019/05/25','Francisco Jimenez Gomez','Calle de la esperanza nº7, 1e','España','Colegio 01, mesa: 7-u','LLucmajor',null);//DNI CADUCADO
 
-$pedro = new Votante('48571445X','1970/05/22', '2019/12/25','Ana Maria La Justicia','Calle delcuerno nº22, 5p','España','Colegio 01, mesa: 7-u','Palma');//DNI INCORRECTO(LETRA)
+$pedro = new Votante('48571445X','1970/05/22', '2019/12/25','Ana Maria La Justicia','Calle delcuerno nº22, 5p','España','Colegio 01, mesa: 7-u','Palma',null);//DNI INCORRECTO(LETRA)
 
-$martina= new Votante('02289412S','1978/02/25', '2020/06/10','Martina de la rosa','Calle de la esperanza nº7, 1e','España','Colegio 05, mesa: 7-u','Euskadi');//MESA EQUIVOCADA
+$martina= new Votante('02289412S','1978/02/25', '2020/06/10','Martina de la rosa','Calle de la esperanza nº7, 1e','España','Colegio 05, mesa: 7-u','Euskadi',null);//MESA EQUIVOCADA
 
-$fernando = new Votante('71929822J','1998/11/17', '2019/12/15','Fernando Pedrini Romero','Calle de la costa nº7, 1e','Francia','Colegio 01, mesa: 7-u','Paris');//APTO
+$fernando = new Votante('71929822J','1998/11/17', '2019/12/15','Fernando Pedrini Romero','Calle de la costa nº7, 1e','Francia','Colegio 01, mesa: 7-u','Paris',null);//APTO
 
-$juaquin = new Votante('52412142H','1998/11/17', '2030/05/25','Juaquin De los dolores Gomez','Calle de la rosa nº7, 1e','España','Colegio 01, mesa: 7-u','LLucmajor');//APTO
+$juaquin = new Votante('52412142H','1998/11/17', '2030/05/25','Juaquin De los dolores Gomez','Calle de la rosa nº7, 1e','España','Colegio 01, mesa: 7-u','LLucmajor',null);//APTO
 
-$julia = new Votante('43553273J','2003/11/17', '2019/12/03','Julia Fernandes','Calle de la esperanza nº7, 1e','España','Colegio 01, mesa: 7-u','Llucmajor');//MENOR DE EDAD
+$julia = new Votante('43553273J','2003/11/17', '2019/12/03','Julia Fernandes','Calle de la esperanza nº7, 1e','España','Colegio 01, mesa: 7-u','Llucmajor',null);//MENOR DE EDAD
 
-$petro = new Votante('53673366Z','2005/11/17', '2019/02/18','Petro Miralles Perez','Calle de la esperanza nº7, 1e','España','Colegio 07, mesa: 7-z','Llucmajor');//APTO
+$petro = new Votante('53673366Z','2005/11/17', '2019/02/18','Petro Miralles Perez','Calle de la esperanza nº7, 1e','España','Colegio 07, mesa: 7-z','Llucmajor',null);//APTO

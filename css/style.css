@@ -4,6 +4,21 @@
 }
 
 .apto{
-
     color: green;
+}
+
+.botonno{
+    background-color: red;
+    width: 12vw;
+    border-radius: 2vw;
+    padding: 1rem;
+    text-decoration: none;
+}
+
+.votar{
+    background-color: green;
+    width: 12vw;
+    border-radius: 2vw;
+    padding: 1rem;
+    text-decoration: none;
 }

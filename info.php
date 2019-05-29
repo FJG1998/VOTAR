@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include_once('models/Votante.php');
 
 $votantes=[
@@ -26,8 +28,6 @@ $votantes=[
 <body>
 
 <?php
-
-        session_start();
 
         $dniUsuario = $_SESSION['dni'];
 
