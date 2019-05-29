@@ -13,6 +13,7 @@
 // SUPER CLASE DE PERSONA
 
 class Votante{
+
     private $dni;
     private $fechaNacimiento;
     private $caducidad;
@@ -41,11 +42,13 @@ class Votante{
 
     public function maestro(){
 
+        $haVotado = false;
+
         $noValido = 0;
 
         $this->noValido = $noValido;
 
-
+        
         $this->printINfo();
 
         $this->menorEdad();
@@ -56,9 +59,13 @@ class Votante{
 
         if($this->noValido < 1){
 
-            echo ' <h1 class="apto">APTO PARA VOTAR<h1>';
+            echo '<h1 class="apto">APTO PARA VOTAR<h1>';
+
+            $haVotado = true;
+
+            echo '<a href="#">VOTAR</a>';
         }
-        
+
     }
 
 
@@ -120,7 +127,6 @@ class Votante{
     private function caducidad($caducidad){
 
     
-
         list($y, $m, $d) = explode('/', $caducidad);
         
         $mesDiaActual = date('md');

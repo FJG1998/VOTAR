@@ -14,6 +14,7 @@ if(isset($_POST['dni'])){
 
     // Condicional que comprueba la si la letra es correcta y nos envia a la pagina de informacion
 
+
     if($validarLetra->letraDNI($numeros) == $letra){
 
         
@@ -49,9 +50,11 @@ if(isset($_POST['dni'])){
 
     <form action="" method="POST">
 
-        <input type="text" name="dni" id="" placeholder="DNI" required autofocus>
+        <input type="text" name="dni" id="" placeholder="DNI" pattern="(([X-Z]{1})([-]?)(\d{7})([-]?)([A-Z]{1}))|((\d{8})([-]?)([A-Z]{1}))" required autofocus >
 
     </form>
  
+ <!-- SOLO FALTA QUE NO PUEDA VOTAR DOS VECES, SE INTENTA EN VOTANTE 64 -->
+
 </body>
 </html>
