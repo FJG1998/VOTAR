@@ -1,5 +1,6 @@
 <?php
 include_once('ivotar.php');
+
 /*
 ..######..##.....##.########..########.########......######..##..........###.....######...######.
 .##....##.##.....##.##.....##.##.......##.....##....##....##.##.........##.##...##....##.##....##
@@ -25,6 +26,7 @@ class Votante implements Votar{
     private $pais;
     private $mesa;
 
+
     public function __construct($dni,$fechaNacimiento, $caducidad, $nombre, $calle, $pais, $mesa,$localidad,$haVotado){
 
         $this->dni = $dni;
@@ -38,7 +40,6 @@ class Votante implements Votar{
         $this->haVotado = $haVotado;
     }
 
-
     // Metodos
 
         // METODO MAESTRO
@@ -49,7 +50,8 @@ class Votante implements Votar{
 
         $this->noValido = $noValido;
 
-        
+        $this->dnicompare = $_SESSION['dni'];
+
         $this->printINfo();
 
         $this->menorEdad();
@@ -58,47 +60,35 @@ class Votante implements Votar{
 
         $this->mesa();
 
+        $this->dniComparar();
+
+
         if($this->noValido < 1){
+
 
             echo '<h1 class="apto">APTO PARA VOTAR<h1><br><br>';
 
-                    // Abrir el archivo o crearlo si no existe, con permiso para escribir y leer
+            $registro = fopen('registro.txt','a+');
 
-                $registro = fopen('registro.txt','a+');
+                    $hora = date('h:i:s');
 
-                $array = file('registro.txt',FILE_IGNORE_NEW_LINES);
+                    $dniUsuario = $this->dni;
 
-                $hora = date('h:i:s');
+            fwrite($registro, $dniUsuario . PHP_EOL);
 
-                $dniUsuario = $this->dni.'_'. $hora;
-
-                fwrite($registro, $dniUsuario . PHP_EOL);
-
-                echo '<pre>';
-
-                print_r($array);
-
-                echo '</pre>';
-
-//                 foreach($array as $valor){
-
-
-// // pendiente que comprueve el array y diga si hay coincidencias
-
-
-//                 }
-
-            
             echo '<a class="votar" href="index.php">VOTAR</a>';
-
-            $this->haVotado = true;
 
             fclose($registro);
 
-        }else{echo ' <a class="botonno" href="index.php">VOLVER</a> ';}
+            $this->haVotado = true;
+
+        }else{
+
+            echo ' <a class="botonno" href="index.php">VOLVER</a> ';
+
+        }
 
     }
-
 
         // Metodo que imprime la informacion de cada votante
 
@@ -194,6 +184,23 @@ class Votante implements Votar{
         }
     }
 
+    private function dniComparar(){
+
+        $array = file('registro.txt',FILE_IGNORE_NEW_LINES);
+
+        $dniIntro = $this->dnicompare;
+
+        foreach($array as $valor){
+
+            if($dniIntro == $valor){
+
+                echo '<h1 class="menor">YA HA VOTADO<h1><br><br>';
+                
+                $this->noValido += 1;
+            }
+        }
+    }
+
     // GETTER
 
         // Coje la fecha de caducidad del dni
@@ -216,6 +223,7 @@ class Votante implements Votar{
 
         return $this->fechaNacimiento;
     }
+
 
 
 }
