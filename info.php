@@ -1,7 +1,11 @@
 <?php
+
+// INICIO DE SESION PARA PODER COGER LA INFORMACION DEL DNI INTRODUCIDO EN EL INPUT
 session_start();
 
 include_once('models/Votante.php');
+
+// ARRAY PARA EL FOREACH QUE COMPRUEVA LA INFORMACION DE CADA DNI
 
 $votantes=[
 
@@ -29,7 +33,7 @@ $votantes=[
 
 <?php
 
-        $dniUsuario = $_SESSION['dni'];
+        $dniUsuario = $_SESSION['dni'];//variable de sesion que tiene la informacion del dni introducido en el input
 
 
     foreach($votantes as $valor){

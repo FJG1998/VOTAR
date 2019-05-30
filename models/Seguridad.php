@@ -4,6 +4,8 @@
 
 class Seguridad{
 
+  // Metodo que comprueva si la letra del dni coincide con los numeros
+
     private $dni;
 
     public function letraDNI ($dni) {
@@ -17,8 +19,6 @@ class Seguridad{
           $letraDNI = substr ($letras, $calcular, 1);
 
         return $letraDNI;
-
-
     }
 
 
